@@ -31,7 +31,7 @@ knitr::opts_knit$set(root.dir = "/cloud/project")
 * Have your laptop available for each course meeting
 * We will work with R through the Posit Cloud interface ([https://posit.cloud/](https://posit.cloud/))
 * You will create all of your assignments using R Markdown
-* You are encouraged to complete online tutorials on using R through Posit Cloud ("Learn" --> "Primers" in the left-hand menu)
+* You are encouraged to complete online tutorials on using R through Posit Cloud ("Learn" --> "Primers" in the left-hand menu) - no longer exists -- use Swirl instead!
 * Another great resource for learning R is the online book "R for Data Science", which you can access for free at [https://r4ds.had.co.nz/](https://r4ds.had.co.nz/) and  [https://r4ds.hadley.nz/](https://r4ds.hadley.nz/) (second edition).
 
 **Version control/collaboration**: GitHub
