@@ -304,7 +304,7 @@ knitr::include_graphics("module_1/counterfactual_world.png")
 If we could observe each person both as a smoker and a non-smoker, we could directly see the effect of smoking on disease, because the only thing different between the two worlds would be whether the person smoked or not.
 
 However, we can't observe each person as both a smoker and a non-smoker, so the data we really observe is this:
-![Actual world](module_1/actual_world.png)
+![Actual world]("module_1/actual_world.png")
 
 Here we still observe a difference in disease risk between the smokers and the non-smokers, but we can't be certain that the difference is due to smoking because there may be other differences between the smokers and non-smokers besides smoking status.  Perhaps, for example, most of the non-smokers are female while most of the smokers are male.  Or perhaps the smokers tend to be older than the non-smokers.  There is the potential that other variables could **confound** the relationship between smoking and disease.
 
