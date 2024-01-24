@@ -360,6 +360,9 @@ ggplot(data = nmes_data_female) +
 * You might find it helpful to recode the variables you are planning to use in your graph to designate groups with meaningful labels (Male, Female) rather than meaningless numbers (0, 1).  Reminder to look at how we did this for `eversmk` and `lc5` in the "Bar graphs" section of this document above.
 
 As you are working on your assignment, if you are looking for additional ways to challenge yourself think about:
-1. How could I improve the clarity of what my figure or table is showing? Is it clear at a glance what the different variables displayed are?
-2. What extraneous information is being shown in the figure or table? How could I go about simplifying that?
-3. How could I improve the organization and readability of my code? There are some great tips on this in the (Workflow: code style)[https://r4ds.hadley.nz/workflow-style] section of the R for Data Science book if you are interested. (I am not always the best at following these myself!)
+
+* How could I improve the clarity of what my figure or table is showing? Is it clear at a glance what the different variables displayed are?
+
+* What extraneous information is being shown in the figure or table? How could I go about simplifying that?
+
+* How could I improve the organization and readability of my code? There are some great tips on this in the (Workflow: code style)[https://r4ds.hadley.nz/workflow-style] section of the R for Data Science book if you are interested. (I am not always the best at following these myself!)
