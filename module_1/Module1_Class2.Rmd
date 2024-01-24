@@ -62,7 +62,7 @@ We will answer these questions using data from the National Medical Expenditures
 
 We follow the overall data analysis philosophy outlined in the R for Data Science book mentioned in the course syllabus (available for free online [here](https://r4ds.hadley.nz/). Here's a visual representation of this philosophy from the book:
 
-![Whole game](whole-game.png)
+![](whole-game.png)
 
 
 I strongly encourage those who are just starting out with learning R to review the "Whole game" section of this online book. There are lots of amazing tips and tricks to help get you started on the right path.
@@ -295,20 +295,20 @@ In our case, we have:
 
 If we could observe a world where everyone smokes **and** a world where no one smokes, we would observe the following data:
 
-![Couterfactual world](counterfactual_world.png)
+![](counterfactual_world.png)
 
 
 If we could observe each person both as a smoker and a non-smoker, we could directly see the effect of smoking on disease, because the only thing different between the two worlds would be whether the person smoked or not.
 
 However, we can't observe each person as both a smoker and a non-smoker, so the data we really observe is this:
-![Actual world](actual_world.png)
+![](actual_world.png)
 
 Here we still observe a difference in disease risk between the smokers and the non-smokers, but we can't be certain that the difference is due to smoking because there may be other differences between the smokers and non-smokers besides smoking status.  Perhaps, for example, most of the non-smokers are female while most of the smokers are male.  Or perhaps the smokers tend to be older than the non-smokers.  There is the potential that other variables could **confound** the relationship between smoking and disease.
 
 > There is **confounding** in the effect of a treatment $Z$ (e.g. smoking) on an outcome variable $Y$ (e.g. disease status) if we fail to compare **otherwise similar** units and as a result attribute to $Z$ what is **actually caused by factors $X$** that differ between the $Z=0$ and $Z=1$ observations.
 
 We often display this confounding using a directed acyclic graph (DAG):
-![Confounding DAG](confounding_dag.png)
+![](confounding_dag.png)
 
 This is why it's not enough just to compare the risk of disease between smokers and non-smokers.  We need to compare the risk of disease between smokers and **otherwise similar** non-smokers.  
 
