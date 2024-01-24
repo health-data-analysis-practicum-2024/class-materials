@@ -295,7 +295,11 @@ In our case, we have:
 * We want to compare the risk of disease between two worlds where (1) everyone smokes and (2) no one smokes
 
 If we could observe a world where everyone smokes **and** a world where no one smokes, we would observe the following data:
-![Counterfactual world](module_1/counterfactual_world.png)
+
+```{r, echo=FALSE, fig.align='center', out.width="70%"}
+knitr::include_graphics("module_1/counterfactual_world.png")
+```
+
 
 If we could observe each person both as a smoker and a non-smoker, we could directly see the effect of smoking on disease, because the only thing different between the two worlds would be whether the person smoked or not.
 
