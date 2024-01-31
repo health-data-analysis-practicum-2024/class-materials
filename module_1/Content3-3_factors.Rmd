@@ -378,7 +378,7 @@ For your Assignment #3, you will read in a raw version of the NMES dataset and r
 
 First, read in the raw NMES data:
 ```{r}
-nmesRAW <- read_csv("data/nmesUNPROC.csv")
+nmesRAW <- read_csv("module_1/nmesUNPROC.csv")
 
 nmesRAW
 ```
@@ -421,7 +421,7 @@ nmesRAW
 
 Eventually, you may become confident enough in your coding to simply recode the original variable right away, without checking the new values with the old ones, as below.  However, when you're starting it can be useful to check your recoding as you go, so you are sure you are re-coding the way you think you are re-coding!
 ```{r}
-nmesRAW <- read_csv("data/nmesUNPROC.csv")
+nmesRAW <- read_csv("module_1/nmesUNPROC.csv")
 
 nmesRAW <- nmesRAW %>%
   mutate(eversmk = fct_recode(factor(eversmk),
