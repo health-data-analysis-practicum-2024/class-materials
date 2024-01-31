@@ -9,6 +9,7 @@ output:
 ---
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_knit$set(root.dir = "/cloud/project")
 ```
 
 In Module 3, we are learning about "data wrangling", which is the process of getting data into `R` and into the right format for making graphs and doing statistical analyses.  In Class 3-3, we will learn about representing variables as **factors**.  We will use the `forcats` package to do this.  The `forcats` package is part of the `tidyverse`.
