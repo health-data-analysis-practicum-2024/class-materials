@@ -116,9 +116,9 @@ nmes_data %>%
               include = c(age, female, marital, educate))
 ```
 
-Here, we can see that the association between our confounders and our treatment (how the distribution of the counfounders varies comparing never-smokers to ever-smoker) is strongly attenuated.
+Here, we can see that the association between our confounders and our treatment (how the distribution of the counfounders varies comparing never-smokers to ever-smokers) is strongly attenuated.
 
-This is true within any of the propensity score strata:
+This is true within any of the propensity score strata.
 
 For example, among the **fifth propensity score quintile**:
 ```{r}
