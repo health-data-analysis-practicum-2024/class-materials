@@ -1,7 +1,7 @@
 ---
 title: "Class 1-8: Effect modification"
 author: "Health Data Analysis Practicum (AS.280.347)"
-date: "February 15, 2023"
+date: "February 14, 2024"
 output: 
   html_document:
     toc: true
@@ -11,7 +11,40 @@ output:
     number_sections: false
 ---
 
-**Note:** Valentine's hearts courtesty of Emily Riederer (https://github.com/emilyriederer/demo-rmd-snow) To turn them off, you can delete the chunk of code below from lines 16 through 47.
+**Note:** Valentine's hearts courtesy of Emily Riederer (https://github.com/emilyriederer/demo-rmd-snow) To turn them off, you can delete the chunk of code below from lines 16 through 47.
+
+<div class="snowflakes" aria-hidden="true">
+  <div class="snowflake">
+  ♥
+  </div>
+  <div class="snowflake">
+  ♡
+  </div>
+  <div class="snowflake">
+  ♥
+  </div>
+  <div class="snowflake">
+  ♡
+  </div>
+  <div class="snowflake">
+  ♥
+  </div>
+  <div class="snowflake">
+  ♡
+  </div>
+  <div class="snowflake">
+  ♥
+  </div>
+  <div class="snowflake">
+  ♡
+  </div>
+  <div class="snowflake">
+  ♥
+  </div>
+  <div class="snowflake">
+  ♡
+  </div>
+</div>
 
 
 
