@@ -13,7 +13,7 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, message = FALSE, error = TRUE)
-# knitr::opts_knit$set(root.dir = "/cloud/project")
+knitr::opts_knit$set(root.dir = "/cloud/project")
 ```
 
 
