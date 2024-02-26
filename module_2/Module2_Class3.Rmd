@@ -403,7 +403,6 @@ rename <-  dat %>%
            smoking = SMOKER3CAT,
            hypertension = BPQ_2,
            surveyweight = EXAM_WT)
-summary(rename)
 
 ##
 
