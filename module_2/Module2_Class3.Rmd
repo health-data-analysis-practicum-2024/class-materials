@@ -90,7 +90,6 @@ dat <- read_sas('module_2/data/d.sas7bdat')
 dim(dat)
 ```
 
-Catharina, Diksha, Ibrahim, Louie, Z
 
 ### Example 1
 
