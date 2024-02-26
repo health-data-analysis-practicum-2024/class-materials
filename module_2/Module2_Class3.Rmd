@@ -130,7 +130,7 @@ hy_df <- rename %>% mutate(
     hypertension = factor(hypertension, levels=c(2,1), labels=c('No','Yes'))
     )
 
-hy_p_df <- 
+hy_df <- 
   hy_df %>%
   drop_na()
 
