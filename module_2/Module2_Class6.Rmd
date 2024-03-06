@@ -55,11 +55,11 @@ This week, we will continue to work toward answering this by learning how to:
 * Learn strategies for approaching model selection: how do you decide what variables to include in your model and how do you compare different models?
 * Introduce your final project to get you to start thinking about what you may want to pursue
 
+## Some odds and ends
 
-## Group discussion for today
+#### Example of nicely formatted tables
 
-You'll want to load libraries, read in data, and recode variables that may be of use:
-```{r}
+```{r , echo=FALSE}
 library(tidyverse)  # core group of tidyverse packages
 library(knitr)  # to make nice tables
 library(ggpubr)
@@ -133,8 +133,6 @@ hypertension_design <- svydesign(
 h_design_nona <- subset(hypertension_design, complete.cases(hy_df))
 ```
 
-
-#### Example of formatted tables from Piazza post
 
 ```{r, echo = FALSE}
 rename <- dat %>% 
@@ -223,7 +221,7 @@ other_table <- tidy(htn_model, exponentiate = TRUE, conf.int = TRUE)%>%
 ```
 
 
-```{r, echo = FALSE}
+```{r}
 race_table %>%
   kable_minimal(full_width = F, position = "float_left", c("striped", "hover"))
 diet_table %>%
@@ -237,7 +235,7 @@ other_table %>%
 
 See `5_7_maximum_likelihood_estimation_INKED.pdf` file for derivation of likelihood function for logistic regression. It comes from binomial likelihood function, since we are considering a 0-1 outcome (someone has or does not have hypertension). We assume that conditional on the input variables, we can calculate the probability of a "success" (i.e., having hypertension) as a function of the estimated model coefficients and the values of the input variables, and each "trial" is independent of the others.
 
-### Model selection
+### Model selection and prediction
 
 You've now fit at least one model using these data. But how do you know if it is a good model for answering our question of interest? There are many approaches to answering this question.
 
@@ -366,8 +364,6 @@ Finally, start working on Question 2.2, comparing the survey-weighted results to
 ## Looking ahead to your final projects
 
 
-
-
 It is time to start thinking about your final projects, which will be the focus of the course after we wrap up Module 2. 
 
 
@@ -389,7 +385,7 @@ Your final project will have the following pieces:
 
 To help you get started, we have created a working Google Doc where you can record your plans. This will help you organize your thoughts, find classmates working on similar questions, and help us keep track of who is working on what.
 
-Here is link to the [working doc](https://docs.google.com/document/d/1R-8157ozdOPi-09h3EsconPV0GK9ZhxuY6hRQ5QiMpM/edit?usp=sharing){target="_blank"}.
+Here is link to the [working doc](https://docs.google.com/document/d/1KxpJ0wodHlcG814QaoSFhVpfvlvilIwPXhOBuNoV8i0/edit?usp=sharing){target="_blank"}.
 
 Feel free to start contributing your ideas; nothing here is set in stone, this is just a starting point that you will update in the coming weeks.
 
