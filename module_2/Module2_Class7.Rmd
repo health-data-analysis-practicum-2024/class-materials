@@ -465,7 +465,7 @@ g1_both <- rbind(g1_res, g1_noWt_res)
 g1_both %>% 
   ggplot(aes(x = estimate, y = term)) +
      geom_vline(xintercept = 0, linetype = "dashed") +
-     geom_errorbarh(aes(estimate, term, xmin = `2.5 %`, xmax = `97.5 %`, color = factor(method)), height = 0.2, size = 0.8) +
+     geom_errorbarh(aes(estimate, term, xmin = `2.5 %`, xmax = `97.5 %`, color = factor(method)), height = 0.2, linewidth = 0.8) +
      geom_point(aes(color = factor(method),
                     shape = factor(method)),size = 3) +
   facet_wrap(~method, ncol = 1, scales = "free_y") +
@@ -629,7 +629,7 @@ comparedgraph <- g_both %>%
              linetype = "dashed") +
   geom_errorbarh(aes(xmin = conf.low, 
                      xmax = conf.high,
-                     width = 0.3),
+                     linewidth = 0.3),
                  height = 0.5, 
                  size = 0.8,) +
   geom_point(aes(color = factor(Method), size = 3) +
@@ -695,7 +695,7 @@ pander(g1_noWt_res)
 
 Now that we have both versions of the results, we can work on combining them in different ways to make some tables.
 
-A couple of you posted an example of a table comparison on Piazza [here](https://piazza.com/class/lrh8j0ur7id7kt/post/42_f2){target="_blank"}, [here] (https://piazza.com/class/lrh8j0ur7id7kt/post/42_f8){target="_blank"}  and [here](https://piazza.com/class/lrh8j0ur7id7kt/post/42_f6){target="_blank"}. What are some things that work well or could be improved with this set of tables?
+A couple of you posted an example of a table comparison on Piazza [here](https://piazza.com/class/lrh8j0ur7id7kt/post/42_f2){target="_blank"}, [here](https://piazza.com/class/lrh8j0ur7id7kt/post/42_f8){target="_blank"}  and [here](https://piazza.com/class/lrh8j0ur7id7kt/post/42_f6){target="_blank"}. What are some things that work well or could be improved with this set of tables?
 
 To show the results in the same table, we want to start by joining the results from the two tables.
 ```{r}
