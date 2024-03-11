@@ -157,90 +157,97 @@ In your groups, for each plot, discuss things that you like and things that you 
 
 ```{r , echo = FALSE}
 
-cleandat <- dat %>% 
-  select(id = KEY,
-         age = SPAGE,
-         bmi = BMI,
-         educate = EDU4CAT,
-         race = DMQ_14_1,
-         employment = OCQ_1,
-         hypertension = BPQ_2,
-         diabetes = DIQ_1,
-         surveyweight = EXAM_WT)
+rename <- 
+  dat %>% 
+    select(id = KEY,
+           age = SPAGE,
+           race = DMQ_14_1,
+           gender = GENDER,
+           born = US_BORN,
+           diet = DBQ_1,
+           income = INC20K,
+           diabetes = DIQ_1,
+           bmi = BMI,
+           cholesterol = BPQ_16,
+           drink = ALQ_1_UNIT,
+           smoking = SMOKER3CAT,
+           hypertension = BPQ_2,
+           surveyweight = EXAM_WT)
 
-#replace the "don't know" option in employment with NA
-cleandat <- cleandat %>%
-  mutate(employment =ifelse(dat$OCQ_1 == ".D","NA",employment))
+rename <- rename %>% 
+          mutate(drink = ifelse(dat$ALQ_1 == 0, 4, drink))
 
-rename <- cleandat %>%
-  mutate(educate = factor(educate, levels=c(4,3,2,1), labels=c("College Grad",
-                                                               "Some College",
-                                                            "High School Grad",
-                                                      "Less than High School")),
-        race = factor(race, levels=c(100, 110, 120, 140, 180, 250), 
+hy_df <- rename %>% mutate(race=factor(race, levels=c(100, 110, 120, 140, 180, 250), 
                       labels=c('White', 'Black/African American', 
                               'Indian /Alaska Native', 
                               'Pacific Islander', 
                               'Asian', 'Other Race')),
-                      
-        employment = factor(employment, levels=c(1, 2, 3, 4), labels = c("Work at a job", "With job but not at work", "Looking for work", "No job not working")),
-        hypertension = factor(hypertension, levels=c(2,1), labels=c('No','Yes')),
-        diabetes = factor(diabetes, levels=c(2,3,1), labels=c('No','Prediabetes','Yes')) 
-        )
+                     gender = factor(gender, levels=c(1,2), 
+                        labels=c('Male', 'Female')),
+                     born = factor(born, levels = c(1,2),
+                        labels = c("US Born", "Non-US Born")),
+                     diet = factor(diet, levels=c(5:1), 
+                      labels=c('Poor', 'Fair', 'Good', 
+                               'Very good','Excellent')),
+                     income = factor(income, levels=c(1:6), 
+                        labels=c('Less than $20,000','$20,000 - $39,999',
+                                 '$40,000 - $59,999','$60,000 - $79,999',
+                                 '$80,000 - $99,999','$100,000 or more')),
+                     diabetes = factor(diabetes, levels=c(2,1,3), 
+                          labels=c('No','Yes','Prediabetes')),
+                     cholesterol = factor(cholesterol, levels=c(2,1), 
+                             labels=c('Low value','High value')),
+                     drink = factor(drink, levels=c(4:1), 
+                       labels=c('Never','Yearly', 'Monthly', 'Weekly')),
+                     smoking = factor(smoking, levels=c(1,3,2), 
+                         labels=c('Never smoker','Former smoker','Current smoker')),
+                     hypertension = factor(hypertension, levels=c(2,1), 
+                              labels=c('No','Yes'))
+                     )
 
-#now drop NA:
-rename_nona <- rename %>%
+hy_p_df <- 
+  hy_df %>%
   drop_na()
 
-#specify the survey design:
-hdesign <- svydesign(
-  id=~1,  #no cluster sampling
-  weights = ~rename$surveyweight,
-  data = rename
+hypertension_design <- svydesign(
+  ids = ~1,
+  weights = ~hy_df$surveyweight,
+  data = hy_df
 )
 
-#calculate survey weighted summary statistics
-hdesign_nona <- subset(hdesign, complete.cases(rename)) #without missing data
-fullglm <- svyglm(hypertension~age+bmi+educate+race+employment+diabetes,
-                  family=quasibinomial(link='logit'),
-                  design=hdesign_nona)
-#tidy the data
-Tfullglm <- tidy(fullglm, exponentiate=TRUE)
+h_design_nona <- subset(hypertension_design, complete.cases(hy_df))
 
-### survey-weighted logistic regression
-g1 <- svyglm(hypertension~age+bmi+educate+race+employment+diabetes,
-                  family=quasibinomial(link='logit'),
-                  design=hdesign_nona)
+g <- svyglm(hypertension ~ age + gender + bmi + cholesterol + diabetes + race + income, 
+    family = quasibinomial(link = 'logit'), design = h_design_nona)
 
-g1_res <- tidy(g1, Exponentiate=TRUE)
-conf_int1 <- confint(g1)
-exp_conf_int1 <- exp(conf_int1)
-g1_res <- cbind(g1_res, exp_conf_int1)
 
-### unweighted logistic regression
-g1_noWt <- glm(hypertension~age+bmi+educate+race+employment+diabetes,family=binomial(link="logit"), data=rename_nona)
+g_results <- tidy(g, exponentiate = TRUE) %>%
+  filter(term != "(Intercept)")
 
-g1_noWt_res <- tidy(g1_noWt, Exponentiate=TRUE)
-conf_int2 <- confint(g1_noWt)
-exp_conf_int2 <- exp(conf_int2)
-g1_noWt_res <- cbind(g1_noWt_res, exp_conf_int2)
+g_results$term <- c("Age", "Female", "BMI", "High Cholesterol", "Diabetes", "Prediabetes", "Black/African American", "Indian/Alaska Native", "Pacific Islander", "Asian", "Other Race", "Income $20,000 - $39,999", "Income $40,000 - $59,999", "Income $60,000 - $79,999", "Income $80,000 - $99,999", "Income $100,000 or more")
 
-#combine
-g1_res <- g1_res %>% mutate(method = "Weighted")
-g1_noWt_res <- g1_noWt_res %>% mutate(method = "Unweighted")
+g1_noWt <- glm(hypertension ~ 
+               age + gender + bmi + cholesterol + diabetes + race + income,
+              family = quasibinomial(link = 'logit'), data=hy_p_df)
 
-g1_both<-rbind(g1_res, g1_noWt_res)
+g1_noWt_res <- tidy(g1_noWt, exponentiate = TRUE) %>% 
+  filter(term != "(Intercept)")
 
-g1_both %>% ggplot(aes(x = exp(estimate), y = term),
+g1_noWt_res$term <- c("Age", "Female", "BMI", "High Cholesterol", "Diabetes", "Prediabetes", "Black/African American", "Indian/Alaska Native", "Pacific Islander", "Asian", "Other Race", "Income $20,000 - $39,999", "Income $40,000 - $59,999", "Income $60,000 - $79,999", "Income $80,000 - $99,999", "Income $100,000 or more")
+
+g_results <- g_results %>% mutate(method="Weighted")
+g1_noWt_res <- g1_noWt_res %>% mutate(method="Unweighted")
+
+g1_both<-rbind(g_results, g1_noWt_res)
+
+g1_both %>% ggplot(aes(x = estimate, y = term),
      group_by(g1_both$method)) +
-     geom_vline(xintercept = 1, linetype = "dashed") +
-     geom_errorbarh(aes(estimate, term, xmin = `2.5 %`, 
-     xmax = `97.5 %`, color = factor(method)), linewidth = 0.8)+
      geom_point(aes(color = factor(method),
-                    shape = factor(method)),size = 3)+
-    theme(axis.title.x = element_blank(),
-    axis.title.y = element_blank()) +
-    ggtitle(expression(atop(bold("95% confidence interval"))))+
+                    shape = factor(method)),
+                size = 3) +
+    labs(title = "Comparison of weighted and unweighted analysis",
+       x = "Odds Ratio",
+       y = "Variable") +
    theme_minimal()
 
 
@@ -479,7 +486,165 @@ g1_both %>%
 
 #### Example 4
 
-I can't put the code here yet, but take a look at [Anon Calc on Piazza](https://piazza.com/class/ld7tidrzlpp70o/post/30_f9){target="_blank"}. How do you think the variables in the plot are ordered?
+How do you think the variables on this plot are ordered? 
+
+```{r, echo= FALSE}
+dat <- read_sas('data/d.sas7bdat')
+rename <- 
+  dat %>% 
+    select(id = KEY,
+           age = SPAGE,
+           race = DMQ_14_1,
+           gender = GENDER,
+           born = US_BORN,
+           diet = DBQ_1,
+           income = INC20K,
+           diabetes = DIQ_1,
+           bmi = BMI,
+           cholesterol = BPQ_16,
+           drink = ALQ_1_UNIT,
+           smoking = SMOKER3CAT,
+           hypertension = BPQ_2,
+           surveyweight = CAPI_WT)
+
+rename <- rename %>% 
+          mutate(drink = ifelse(dat$ALQ_1 == 0, 4, drink))
+
+hy_df <- rename %>% mutate(race=factor(race, levels=c(100, 110, 120, 140, 180, 250), 
+                      labels=c('White', 'Black/African American', 
+                              'Indian /Alaska Native', 
+                              'Pacific Islander', 
+                              'Asian', 'Other Race')),
+                     gender = factor(gender, levels=c(1,2), 
+                        labels=c('Male', 'Female')),
+                     born = factor(born, levels = c(1,2),
+                        labels = c("US Born", "Non-US Born")),
+                     diet = factor(diet, levels=c(5:1), 
+                      labels=c('Poor', 'Fair', 'Good', 
+                               'Very good','Excellent')),
+                     income = factor(income, levels=c(1:6), 
+                        labels=c('Less than $20,000','$20,000 - $39,999',
+                                 '$40,000 - $59,999','$60,000 - $79,999',
+                                 '$80,000 - $99,999','$100,000 or more')),
+                     diabetes = factor(diabetes, levels=c(2,3, 1), 
+                          labels=c('No','Prediabetes','Yes')),
+                     cholesterol = factor(cholesterol, levels=c(2,1), 
+                             labels=c('Low value','High value')),
+                     drink = factor(drink, levels=c(4:1), 
+                       labels=c('Never','Yearly', 'Monthly', 'Weekly')),
+                     smoking = factor(smoking, levels=c(1,3,2), 
+                                      labels=c('Never smoker','Former smoker','Current smoker')),
+                     hypertension = factor(hypertension, levels=c(2,1), 
+                              labels=c('No','Yes'))
+                     )
+hy_p_df <- 
+  hy_df %>%
+  drop_na()
+
+
+
+hypertension_design <- svydesign(
+  ids = ~1,
+  weights = ~hy_df$surveyweight,
+  data = hy_df
+)
+
+h_design_nona <- subset(hypertension_design, complete.cases(hy_df))
+
+g1 <- svyglm(hypertension ~ 
+               age + gender + diet + diabetes + cholesterol,
+             family = quasibinomial(link = 'logit'), 
+             design = h_design_nona)
+
+g1_results <- tidy(g1,
+                exponentiate = TRUE,
+                conf.int = TRUE)
+
+g1_res <- tidy(g1, 
+                conf.int = TRUE)
+
+g1_results$term <- c("Intercept", 
+                    "Age", 
+                    "Gender", 
+                    "Fair Diet", 
+                    "Good Diet", 
+                    "Very Good Diet", 
+                    "Excellent Diet", 
+                    "Pre-Diabetes", 
+                    "Diabetes", 
+                    "High Cholesterol")
+
+g1_res$term <- c("Intercept", 
+                  "Age", 
+                  "Gender", 
+                  "Fair Diet", 
+                  "Good Diet", 
+                  "Very Good Diet", 
+                  "Excellent Diet", 
+                  "Pre-Diabetes", 
+                  "Diabetes", 
+                  "High Cholesterol")
+
+g1_noWt <- glm(hypertension ~ 
+               age + gender + diet + diabetes + cholesterol,
+              family = quasibinomial(link = 'logit'), data=hy_p_df)
+
+g1_noWt_results <- tidy(g1_noWt,
+                        exponentiate = TRUE,
+                        conf.int = TRUE)
+
+g1_noWt_res <- tidy(g1_noWt, 
+                    conf.int = TRUE)
+
+g1_noWt_results$term <- c("Intercept", 
+                      "Age", 
+                      "Gender", 
+                      "Fair Diet", 
+                      "Good Diet", 
+                      "Very Good Diet", 
+                      "Excellent Diet", 
+                      "Pre-Diabetes", 
+                      "Diabetes", 
+                      "High Cholesterol")
+
+g1_noWt_res$term <- c("Intercept", 
+                      "Age", 
+                      "Gender", 
+                      "Fair Diet", 
+                      "Good Diet", 
+                      "Very Good Diet", 
+                      "Excellent Diet", 
+                      "Pre-Diabetes", 
+                      "Diabetes", 
+                      "High Cholesterol")
+
+g1_res <- g1_results %>% mutate(Method="Weighted")
+g1_noWt_res <- g1_noWt_results %>% mutate(Method="Unweighted")
+g_both <- rbind(g1_res, g1_noWt_res)
+
+comparedgraph <- g_both %>%
+  filter(term != "Intercept") %>%
+  ggplot(aes(x = estimate, y = fct_reorder(term, estimate), color = Method)) +
+  geom_vline(xintercept = 1,
+             linetype = "dashed") +
+  geom_errorbarh(aes(xmin = conf.low, 
+                     xmax = conf.high,
+                     width = 0.3),
+                 height = 0.5, 
+                 size = 0.8,) +
+  geom_point(aes(color = factor(Method), size = 3) +
+  scale_color_manual(values = c("#0072B2", "#f08080"))) +
+  scale_shape_manual(values = c(19, 17)) +
+  theme_minimal() +
+  labs(title = "Comparison of Survey-Weighted and Non-Survery Weighted Regression Analysis",
+       y = "Variable",
+       x = "Odds Ratio Estimate",
+       caption = "Figure 4: Odds Ratio Estimates of Survey-Weighted and Non-Survery-Weighted Regression Analysis"
+      )
+
+comparedgraph 
+
+```
 
 
 #### Example 5
@@ -530,7 +695,7 @@ pander(g1_noWt_res)
 
 Now that we have both versions of the results, we can work on combining them in different ways to make some tables.
 
-One of you posted an example of a table comparison on [Piazza](https://piazza.com/class/ld7tidrzlpp70o/post/30_f11){target="_blank"}. What are some things that work well or could be improved with this set of tables?
+A couple of you posted an example of a table comparison on Piazza [here](https://piazza.com/class/lrh8j0ur7id7kt/post/42_f2){target="_blank"}, [here] (https://piazza.com/class/lrh8j0ur7id7kt/post/42_f8){target="_blank"}  and [here](https://piazza.com/class/lrh8j0ur7id7kt/post/42_f6){target="_blank"}. What are some things that work well or could be improved with this set of tables?
 
 To show the results in the same table, we want to start by joining the results from the two tables.
 ```{r}
@@ -571,6 +736,38 @@ comp_tbl <- g1_join %>%
 comp_tbl
 
 ```
+
+Here is a similar example that also includes a difference in the odds ratios:
+
+```{r , echo = FALSE}
+
+g_join <- inner_join(g1_results, g1_noWt_results, by = "term", suffix = c(".Wt", ".noWt"))
+
+combinetable <- g_join %>%
+  filter(term != "Intercept") %>%
+  mutate(conf.Wt = paste0("(", round(conf.low.Wt, 2), ", ", round(conf.high.Wt, 2), ")")) %>%
+  mutate(conf.noWt = paste0("(", round(conf.low.noWt, 2), ", ", round(conf.high.noWt, 2), ")")) %>%
+  mutate(p.valueSN.Wt = formatC(p.value.Wt, digits = 2, format = "e")) %>%
+  mutate(p.valueSN.noWt = formatC(p.value.noWt, digits = 2, format = "e")) %>%
+  select(Term = term,
+         `Odds Ratio` = `estimate.Wt`,
+         `P-Value` = `p.valueSN.Wt`,
+         `95% Confidence Interval` = conf.Wt,
+         `Odds Ratio ` = `estimate.noWt`,
+         `P-Value ` = `p.valueSN.noWt`,
+         `95% Confidence Interval ` = conf.noWt) %>%
+  mutate(Difference = abs(`Odds Ratio` - `Odds Ratio `)) %>%
+  kable(format = "html",
+        digits = 3,
+        caption = "Table 3: Comparison of Weighted and Unweighted Modeling Results",) %>%
+  add_header_above(c("", "Survery Weighted" = 3, "Non-Weighted" = 3, " ")) %>%
+  kable_styling(full_width = TRUE)
+
+combinetable
+
+```
+ 
+
 
 There is another package that makes really nice looking tables, the package `gtsummary`, with the function `tbl_regression`. It is a little fidgety with the variable names for some reason, but the tables also include the baseline levels of the variables, for example, which is quite useful. There is a tutorial about how to use this package [here](https://cran.r-project.org/web/packages/gtsummary/vignettes/tbl_regression.html){target="_blank"}.
 
