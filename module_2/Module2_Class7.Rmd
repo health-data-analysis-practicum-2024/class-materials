@@ -489,7 +489,7 @@ g1_both %>%
 How do you think the variables on this plot are ordered? 
 
 ```{r, echo= FALSE}
-dat <- read_sas('data/d.sas7bdat')
+dat <- read_sas('./module_2/data/d.sas7bdat')
 rename <- 
   dat %>% 
     select(id = KEY,
