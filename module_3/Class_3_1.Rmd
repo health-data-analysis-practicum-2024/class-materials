@@ -300,7 +300,7 @@ Just like in logistic regression, we can exponentiate these coefficients to get 
 * $e^{\beta_2}$ represents the ratio of $Y$ values associated with a one-unit increase in $X_2$, holding the other $X$ variables constant. So the ratio of *counts* associated with a one-unit increase in $X_2$, holding the other $X$ variables constant.
 * Etc
 
-Why do we get ratios of $Y$ values here?  Just like in logistic regression, when log at a different in logs, this becomes a log of a ratio:
+Why do we get ratios of $Y$ values here?  Just like in logistic regression, when we take a difference in logs, this becomes a log of a ratio:
 $$
 \beta_1 = \log(Y | X_1 = x + 1) - \log(Y | X_1 = x) = log\left( \frac{Y | X_1 = x+1}{Y | X_1 = x} \right)
 $$
@@ -351,7 +351,7 @@ The following table shows the data from this paper:
 
 ![Table 1: Total game concussions and concussion rates by sport, year, and sex](data_table.png)
 
-We see from this table that for each sport and for each sex, we have a count of the number of concussions (*Total concussions* column).  But we wouldn't want to directly compared the number of concussions between lacrosse and soccer because there were many more game exposures (*Game Exposures* column) played in soccer than in lacrosse.  So we need to actually model the *rate* of concussions by including an offset for the game exposures.
+We see from this table that for each sport and for each sex, we have a count of the number of concussions (*Total concussions* column).  But we wouldn't want to directly compare the number of concussions between lacrosse and soccer because there were many more game exposures (*Game Exposures* column) played in soccer than in lacrosse.  So we need to actually model the *rate* of concussions by including an offset for the game exposures.
 
 ##### Data
 
