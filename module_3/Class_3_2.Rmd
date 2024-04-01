@@ -48,7 +48,14 @@ Your final project will have the following pieces:
 * To provide feedback
     * Ask questions
     * Make suggestions for improvement!
-    
+
+Some recurring themes:
+* Reading in data from different formats
+* Merging data from different data sets
+* Don't be afraid to start with tackling a simpler question -- you are all great public health students, but you are still building your analysis skills
+* Think about what the unit of observation is: individual, county, state
+
+
 ## Working project document
 
 We have created a working [working Google doc](https://docs.google.com/document/d/1KxpJ0wodHlcG814QaoSFhVpfvlvilIwPXhOBuNoV8i0/edit?usp=sharing){target="_blank"} where you can record your plans. This will help you organize your thoughts, find classmates working on similar questions, and help us keep track of who is working on what. Please keep this document updated as your project changes!
