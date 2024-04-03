@@ -62,6 +62,7 @@ femalepreg_data = read_ascii_setup(
 
 See Content3-2_tidy_data.Rmd for examples of switching data from long to short form, and joining data sets with common columns.
 
+There is also a great animation about the different join functions in this [open case study](https://www.opencasestudies.org/ocs-bp-opioid-rural-urban/){target="_blank"}.
 
 ### "Accountabilty group" style hackathon time
 
