@@ -9,6 +9,7 @@ output:
 ---
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_knit$set(root.dir = "/cloud/project")
 ```
 
 In Module 3, we are learning about "data wrangling", which is the process of getting data into `R` and into the right format for making graphs and doing statistical analyses.  In Content 3-2, we will learn about the principles of *tidy data* and functions that can be used to put data into this format.  We will use the `tidyr` package to do this.  The `tidyr` package is part of the `tidyverse`.
