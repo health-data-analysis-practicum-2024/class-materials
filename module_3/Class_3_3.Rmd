@@ -47,8 +47,8 @@ library(asciiSetupReader)
 
 
 femalepreg_data = read_ascii_setup(
-  "data/2017_2019_FemPregData.dat",
-  "data/2017_2019_FemPregSetup.sps",
+  "module_3/data/2017_2019_FemPregData.dat",
+  "module_3/data/2017_2019_FemPregSetup.sps",
   use_value_labels = FALSE,
   use_clean_names = FALSE,
   select_columns = NULL,
