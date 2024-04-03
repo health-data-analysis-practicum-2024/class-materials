@@ -9,7 +9,6 @@ output:
 ---
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-knitr::opts_knit$set(root.dir = "/cloud/project")
 ```
 
 In Module 3, we are learning about "data wrangling", which is the process of getting data into `R` and into the right format for making graphs and doing statistical analyses.  In Content 3-2, we will learn about the principles of *tidy data* and functions that can be used to put data into this format.  We will use the `tidyr` package to do this.  The `tidyr` package is part of the `tidyverse`.
@@ -59,7 +58,7 @@ All of these tables contain the same underlying data, but some are easier to use
 Here's a visual representation of these rules from "R for Data Science" by Grolemund and Wickham, chapter 12:
 
 ```{r, echo=FALSE, fig.align='center', out.width="70%"}
-knitr::include_graphics("module_3/tidy_data_figure_R4DS.png")
+knitr::include_graphics("tidy_data_figure_R4DS.png")
 ```
 
 
@@ -142,7 +141,7 @@ The general format here is to first list the columns we want to pivot (`1999`, `
 Here's a visual representation from "R for Data Science" by Grolemund and Wickham, chapter 12:
 
 ```{r, echo=FALSE, fig.align='center', out.width="70%"}
-knitr::include_graphics("module_3/tidy_pivot_longer_R4DS.png")
+knitr::include_graphics("tidy_pivot_longer_R4DS.png")
 ```
 
 You can see that the `pivot_longer()` function makes the dataset *longer* by increasing the number of rows in the dataset.  In this case, the number of columns stayed the same, but if we had had more than 2 years across the columns (like `1999`, `2000`, and `2001`) we would also have decreased the number of columns by creating only 2 new columns for `year` and `cases`.
@@ -200,7 +199,7 @@ Notice that since these variables (`type` and `count`) already exist, we don't n
 Here's a visual representation from "R for Data Science" by Grolemund and Wickham, chapter 12:
 
 ```{r, echo=FALSE, fig.align='center', out.width="70%"}
-knitr::include_graphics("module_3/tidy_pivot_wider_R4DS.png")
+knitr::include_graphics("tidy_pivot_wider_R4DS.png")
 ```
 
 You can see that the `pivot_wider()` function makes the dataset *wider* by increasing the number of columns and decreasing the number of rows in the dataset.
@@ -261,7 +260,7 @@ table3 %>%
 Here's a visual representation from "R for Data Science" by Grolemund and Wickham, chapter 12:
 
 ```{r, echo=FALSE, fig.align='center', out.width="70%"}
-knitr::include_graphics("module_3/tidy_data_separate_R4DS.png")
+knitr::include_graphics("tidy_data_separate_R4DS.png")
 ```
 
 Now if we wanted to, we could create that quantitative `rate` variable in a more meaningful way using mutate!  But why won't this work?
@@ -338,7 +337,7 @@ table_century %>%
 Here's a visual representation from "R for Data Science" by Grolemund and Wickham, chapter 12:
 
 ```{r, echo=FALSE, fig.align='center', out.width="70%"}
-knitr::include_graphics("module_3/tidy_data_unite_R4DS.png")
+knitr::include_graphics("tidy_data_unite_R4DS.png")
 ```
 
 # Case study
