@@ -66,7 +66,7 @@ ggplot(penguins, aes(x = species, y = body_mass_g)) +
 
 For additional examples using `stat_summary`, you can see [the ggplot2 help file](https://ggplot2.tidyverse.org/reference/index.html#stats){target="_blank"} or [stat_summary documentation](https://ggplot2.tidyverse.org/reference/stat_summary.html){target="_blank"}
 
-### Layered graphics with ggplot
+### Making powerpoint slides in R
 
 Example powerpoint presentation generation from R!
 
